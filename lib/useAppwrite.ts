@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-native";
 
-interface UseAppwriteOptions<T, P extends Record<string, string | number>> {
+interface UseAppwriteOptions<T, P> {
     fn: (params: P) => Promise<T>;
     params?: P;
     skip?: boolean;
@@ -14,11 +14,11 @@ interface UseAppwriteReturn<T, P> {
     refetch: (newParams?: P) => Promise<void>;
 }
 
-const useAppwrite = <T, P extends Record<string, string | number>>({
-                                                                       fn,
-                                                                       params = {} as P,
-                                                                       skip = false,
-                                                                   }: UseAppwriteOptions<T, P>): UseAppwriteReturn<T, P> => {
+const useAppwrite = <T = any, P = any>({
+                                           fn,
+                                           params = {} as P,
+                                           skip = false,
+                                       }: UseAppwriteOptions<T, P>): UseAppwriteReturn<T, P> => {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(!skip);
     const [error, setError] = useState<string | null>(null);
@@ -30,7 +30,7 @@ const useAppwrite = <T, P extends Record<string, string | number>>({
 
             try {
                 const result = await fn({ ...fetchParams });
-                setData(result);
+                setData(result as T);
             } catch (err: unknown) {
                 const errorMessage =
                     err instanceof Error ? err.message : "An unknown error occurred";
@@ -49,7 +49,7 @@ const useAppwrite = <T, P extends Record<string, string | number>>({
         }
     }, []);
 
-    const refetch = async (newParams?: P) => await fetchData(newParams!);
+    const refetch = async (newParams?: P) => await fetchData(newParams || params);
 
     return { data, loading, error, refetch };
 };

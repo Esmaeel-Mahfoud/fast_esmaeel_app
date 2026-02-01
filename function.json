@@ -1,0 +1,7 @@
+{
+  "id": "sendNotifications",
+  "name": "Send Push Notifications",
+  "runtime": "node-18.0",
+  "entrypoint": "index.js",
+  "execute": ["role:all"]
+}

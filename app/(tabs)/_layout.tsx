@@ -1,3 +1,4 @@
+
 import {Redirect, Slot, Tabs} from "expo-router";
 import useAuthStore from "@/store/auth.store";
 import {TabBarIconProps} from "@/type";
@@ -7,7 +8,7 @@ import cn from "clsx";
 
 const TabBarIcon = ({focused, icon, title}: TabBarIconProps) => (
     <View className="tab-icon">
-        <Image source={icon} className="size-7" resizeMode="contain" tintColor={focused ? '#FE8C00' : '#5D5F6D'}/>
+        <Image source={icon} className="size-7" resizeMode="contain" tintColor={focused ? '#ce2029' : '#5D5F6D'}/>
         <Text className={cn('text-sm font-bold', focused ? 'text-primary' : 'text-gray-200')}>
             {title}
         </Text>
@@ -18,7 +19,7 @@ const TabBarIcon = ({focused, icon, title}: TabBarIconProps) => (
 export default function TapLayout() {
     const {isAuthenticated} = useAuthStore();
 
-    if (!isAuthenticated) return <Redirect href="/sign-in"/>
+    if (!isAuthenticated) return <Redirect href="/(auth)/sign-in"/>
 
     return (
         <Tabs screenOptions={{
@@ -46,28 +47,28 @@ export default function TapLayout() {
                 name='index'
                 options={{
                     title: 'Home',
-                    tabBarIcon: ({focused}) => <TabBarIcon title="Home" icon={images.home} focused={focused}/>
+                    tabBarIcon: ({focused}) => <TabBarIcon title="رئيسية" icon={images.home} focused={focused}/>
                 }}
             />
             <Tabs.Screen
                 name='search'
                 options={{
                     title: 'Search',
-                    tabBarIcon: ({focused}) => <TabBarIcon title="Search" icon={images.search} focused={focused}/>
+                    tabBarIcon: ({focused}) => <TabBarIcon title="البحث" icon={images.search} focused={focused}/>
                 }}
             />
             <Tabs.Screen
                 name='cart'
                 options={{
                     title: 'Cart',
-                    tabBarIcon: ({focused}) => <TabBarIcon title="Cart" icon={images.bag} focused={focused}/>
+                    tabBarIcon: ({focused}) => <TabBarIcon title="السلة" icon={images.bag} focused={focused}/>
                 }}
             />
             <Tabs.Screen
                 name='profile'
                 options={{
                     title: 'Profile',
-                    tabBarIcon: ({focused}) => <TabBarIcon title="Profile" icon={images.person} focused={focused}/>
+                    tabBarIcon: ({focused}) => <TabBarIcon title="الحساب" icon={images.person} focused={focused}/>
                 }}
             />
         </Tabs>

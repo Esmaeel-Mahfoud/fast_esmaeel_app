@@ -3,23 +3,36 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import useAppwrite from "@/lib/useAppwrite";
 import {getCategories, getMenu} from "@/lib/appwrite";
 import {useLocalSearchParams} from "expo-router";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import CartButton from "@/components/CartButton";
 import cn from "clsx";
 import MenuCart from "@/components/MenuCart";
 import {MenuItem} from "@/type";
 import SearchBar from "@/components/SearchBar";
 import Filter from "@/components/Filter";
+import ProductDetailsModal from "@/components/ProductDetailsModal";
 
 
 const Search = () => {
-    const{category, query} = useLocalSearchParams<{query:string; category: string}>()
+    const { category, query } = useLocalSearchParams<{query:string; category: string}>()
 
-    const {data, refetch, loading}= useAppwrite({fn: getMenu, params:{category, query, limit: 6,}});
-    const {data: categories}= useAppwrite({fn: getCategories});
+    const {data: categories} = useAppwrite({fn: getCategories});
+
+    const {data, refetch, loading} = useAppwrite({
+        fn: getMenu,
+        params: { category, query, limit: 6 }
+    });
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+
+    const openProduct = (id: string) => {
+        setSelectedId(id);
+        setModalVisible(true);
+    };
 
     useEffect(() => {
-          refetch({category, query, limit: 6,})
+        refetch({ category, query, limit: 6 })
     }, [category, query]);
 
 
@@ -30,15 +43,20 @@ const Search = () => {
                 renderItem={({item, index})=>{
                     const isFirstRightColItem = index % 2 === 0;
 
-
                     return(
-                    <View className={cn("flex-1 max-w-[48%", !isFirstRightColItem ? 'mt-10': 'mt-0')}>
+                        <View className={cn("flex-1 max-w-[48%]", !isFirstRightColItem ? 'mt-10': 'mt-0')}>
 
-                        <MenuCart item={// @ts-ignore
-                             item as MenuItem  } />
-                    </View>
-                )
-            }}
+                            <MenuCart item={item as MenuItem} onOpen={openProduct} />
+
+                            <ProductDetailsModal
+                                visible={modalVisible}
+                                productId={selectedId}
+                                onClose={() => setModalVisible(false)}
+                            />
+
+                        </View>
+                    )
+                }}
                 keyExtractor={item => item.$id}
                 numColumns={2}
                 columnWrapperClassName="gap-7"
@@ -47,9 +65,9 @@ const Search = () => {
                     <View className="my-5 gap-5">
                         <View className="flex-between flex-row w-full">
                             <View className="flex-start">
-                                <Text className="small-bold uppercase text-primary" >Search </Text>
+                                <Text className="small-bold uppercase text-primary" >البحث </Text>
                                 <View className="flex-start flex-row gap-x-1 mt-0.5">
-                                    <Text className="paragraph-semibold text-dark-100">find your favorite food </Text>
+                                    <Text className="paragraph-semibold text-dark-100">اختر طعامك المفضل</Text>
                                 </View>
                             </View>
                             <CartButton />
@@ -57,13 +75,15 @@ const Search = () => {
 
                         <SearchBar/>
 
-                        <Filter categories={categories!} />
+                        <Filter categories={categories || []} />
 
                     </View>
                 )}
-                ListEmptyComponent={()=> !loading && <Text>No result </Text>}
+                ListEmptyComponent={()=> !loading && <View className="flex-center mt-20"><Text className="paragraph-medium text-gray-200">No results found</Text></View>}
             />
         </SafeAreaView>
     )
 }
 export default Search
+
+

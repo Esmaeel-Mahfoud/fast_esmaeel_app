@@ -6,9 +6,28 @@ import cn from 'clsx'
 import CartButton from "@/components/CartButton";
 import * as Sentry from "@sentry/react-native";
 import useAuthStore from "@/store/auth.store";
+import { router } from "expo-router";
 
 export default function Index() {
     const {user}= useAuthStore();
+
+    // استخدام الـ IDs المباشرة التي زودني بها المستخدم
+    const categoryIds = [
+        "6946f0f4002966029b71", // وجبات (أول بطاقة)
+        "6946f07c0016fb9b8029", // برغر (ثاني بطاقة)
+        "694b0435003b912e653e", // بيتزا (ثالث بطاقة)
+        "6946f12600012cb15b21"  // ساندويش (رابع بطاقة)
+    ];
+
+    const handlePress = (index: number) => {
+        const selectedId = categoryIds[index];
+        if (selectedId) {
+            router.push({
+                pathname: "/search",
+                params: { category: selectedId }
+            });
+        }
+    };
 
     console.log("User:",JSON.stringify(user,null,2));
 
@@ -21,9 +40,11 @@ export default function Index() {
                     const isEven = index % 2 === 0;
                     return (
                         <View>
-                            <Pressable className={cn("offer-card", isEven ? 'flex-row-reverse' : 'flex-row')}
-                                       style={{backgroundColor: item.color}}
-                                       android_ripple={{color:"#fffff22"}}
+                            <Pressable
+                                className={cn("offer-card", isEven ? 'flex-row-reverse' : 'flex-row')}
+                                style={{backgroundColor: item.color}}
+                                android_ripple={{color:"#fffff22"}}
+                                onPress={() => handlePress(index)}
                             >
                                 {({pressed}) => (
                                     <Fragment>
@@ -67,3 +88,5 @@ export default function Index() {
         </SafeAreaView>
     );
 }
+
+

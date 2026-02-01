@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "108977109484",
+    "project_id": "plato-f58e5",
+    "storage_bucket": "plato-f58e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108977109484:android:f573ade78c096e45dde8c9",
+        "android_client_info": {
+          "package_name": "com.esmaeel.mahfoud.fast"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF7-NIVIlmQAYhRezFjj2Efmr2mvR6P_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
