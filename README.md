@@ -1,5 +1,11 @@
 # Welcome to your Expo app 👋
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/700f6b5c-3e93-41e6-a846-600b555daaa5" width="180"  style="margin: 5px;" />
+  <img src="https://github.com/user-attachments/assets/b9f64a62-4625-4292-a4a6-13750cc9b0e6" width="180"  style="margin: 5px;" />
+  <img src="https://github.com/user-attachments/assets/be82a2a9-ad35-4ff3-8691-2ebb87f9d403" width="180"  style="margin: 5px;" />
+</p>
+
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
@@ -8,8 +14,6 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
-   ```
-
 2. Start the app
 
    ```bash
